@@ -12,9 +12,7 @@ console.log(getUserNames(users));
 // Получить массив объектов пользователей по цвету глаз (поле eyeColor).
 
 const getUsersWithEyeColor = (users, color) => {
-  return users
-    .filter((user) => user.eyeColor === color)
-    .map((user) => user.name);
+  return users.filter((user) => user.eyeColor === color).map((user) => user.name);
 };
 console.log(getUsersWithEyeColor(users, "blue")); // [объект Moore Hensley, объект Sharlene Bush, объект Carey Barr]
 
@@ -48,9 +46,7 @@ console.log(getUserWithEmail(users, "elmahead@omatom.com")); // {объект п
 // Получить массив пользователей попадающих в возрастную категорию от min до max лет (поле age).
 
 const getUsersWithAge = (users, min, max) => {
-  return users
-    .filter((user) => user.age >= min && user.age <= max)
-    .map((user) => user.name);
+  return users.filter((user) => user.age >= min && user.age <= max).map((user) => user.name);
 };
 
 console.log(getUsersWithAge(users, 20, 30)); // [объект Ross Vazquez, объект Elma Head, объект Carey Barr]
@@ -70,9 +66,7 @@ console.log(calculateTotalBalance(users)); // 20916
 // Массив имен всех пользователей у которых есть друг с указанным именем.
 
 const getUsersWithFriend = (users, friendName) => {
-  return users
-    .filter((user) => user.friends.includes(friendName))
-    .map((user) => user.name);
+  return users.filter((user) => user.friends.includes(friendName)).map((user) => user.name);
 };
 
 console.log(getUsersWithFriend(users, "Briana Decker")); // [ 'Sharlene Bush', 'Sheree Anthony' ]
@@ -82,10 +76,8 @@ console.log(getUsersWithFriend(users, "Goldie Gentry")); // [ 'Elma Head', 'Sher
 // Массив имен (поле name) людей, отсортированных в зависимости от количества их друзей (поле friends)
 
 const getNamesSortedByFriendsCount = (users) => {
-  return users
-  //     .flatMap(user => user.friends)
-  // .reduce((acc, friend) => acc.hasOwnProperty(friend) ? acc[friend] += 1 : acc[friend] = 1, [])
-}
+  return users.sort((prev, next) => (prev.friends.length - next.friends.length)).map((user) => user.name);
+};
 
 console.log(getNamesSortedByFriendsCount(users));
 // [ 'Moore Hensley', 'Sharlene Bush', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony', 'Ross Vazquez' ]
@@ -95,7 +87,10 @@ console.log(getNamesSortedByFriendsCount(users));
 
 const getSortedUniqueSkills = (users) => {
   return users
-    .flatMap((user) => user.skills)
+    .reduce((acc, user) => {
+    acc.push(...user.skills)
+    return acc;
+    }, [])
     .filter((user, index, arr) => arr.indexOf(user) === index)
     .sort((prev, next) => (prev > next ? 1 : -1));
 };
